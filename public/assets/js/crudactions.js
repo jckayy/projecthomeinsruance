@@ -89,7 +89,6 @@ $(document).ready(function () {
     event.preventDefault();
     // var item = $("#quoteitembyName").val().trim();
     // console.log(item);
-    var row = $("ITEM");
     var cells = $("td");
     var quoteItem = cells[0].innerText.split(" ").join("+");
     alert(quoteItem);
@@ -97,6 +96,7 @@ $(document).ready(function () {
     //Now make api call to prosperent API and populate the spanid field.
     $.ajax("https://api.prosperent.com/api/search?api_key=c0fb9b207a0c050b8ce13200035e473e", {
       type: "GET",
+      datatype: 'jsonp',
       headers: {
         'Access-Control-Allow-Origin': '*',
       },
