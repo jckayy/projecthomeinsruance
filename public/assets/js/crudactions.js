@@ -4,14 +4,9 @@ $(document).ready(function () {
   $(".viewitems").on("click", function (event) {
     var id = $(this).data("id");
     alert(localStorage.getItem("userprofile"));
+    let email = localStorage.getItem("userprofile");
+    viewItems(email);
 
-    $.ajax("/api/home/" + localStorage.getItem("userprofile"), {
-      type: "GET"
-    }).then(function (r) {
-      console.log(r);
-      alert(r);
-      //location.reload();
-    });
   });
 
   $("#cancel").on("click", function (event) {
@@ -55,9 +50,7 @@ $(document).ready(function () {
         .val()
         .trim(),
       id_email: localStorage.getItem("userprofile"),
-      quantity: $("#qu")
-        .val()
-        .trim(),
+      quantity: quant,
       image: $("#image")
         .val()
         .trim(),
@@ -111,17 +104,10 @@ $(document).ready(function () {
     event.preventDefault();
     var id = $(this).data("id");
 
-    var totalunitvalue =
-      parseFloat(
-        $("#qu")
-          .val()
-          .trim()
-      ) *
-      parseFloat(
-        $("#unit")
-          .val()
-          .trim()
-      );
+    var quant = parseFloat($("#qu").val().trim())
+    var price = parseFloat($("#unit").val().trim());
+    var totalunitvalue = getValue(quant, price);
+
     var newItem = {
       itemname: $("#item")
         .val()
@@ -129,9 +115,7 @@ $(document).ready(function () {
       custunitvalue: $("#unit")
         .val()
         .trim(),
-      quantity: $("#qu")
-        .val()
-        .trim(),
+      quantity: quant,
       // image: $("#image")
       //   .val()
       //   .trim(),
@@ -151,9 +135,10 @@ $(document).ready(function () {
 
 });
 
-const getValue = function (quan, price) {
+const getPriceQuantity = function (quan, price) {
   if (isNaN(quan) || isNaN(price)) {
     return -1;
   }
   return quan * price;
 }
+

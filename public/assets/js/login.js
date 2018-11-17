@@ -1,7 +1,7 @@
-$(document).ready(function() {
+$(document).ready(function () {
   var f = "";
-  $("#button").on("click", function() {
- 
+  $("#button").on("click", function () {
+
     var userandassets = {};
     event.preventDefault();
     var email = $("#email")
@@ -10,32 +10,37 @@ $(document).ready(function() {
     var password = $("#password")
       .val()
       .trim();
-    console.log(document.URL);
+
 
     // Is this where the login happends
-    console.log(email);
-    var values = {
-      email,
-      password
-    };
-    $.ajax("/login/" + email + "/" + password, {
-      method: "POST",
-      async: false,
-      data: values
-      //Init values are coming from the login
-    }).then(function(res) {
-      userandassets = res;
-      console.log(userandassets);
-    
-      console.log(userandassets);
-      for (n in userandassets) {
-        f = "/users/" + userandassets['firstname'];
-      }
-      window.location.href = f;
-    }); //End of ajax call
+    if (loginValues(email, password)) {
+      var values = {
+        email,
+        password
+      };
+      $.ajax("/login/" + email + "/" + password, {
+        method: "POST",
+        async: false,
+        data: values
+        //Init values are coming from the login
+      }).then(function (res) {
+        userandassets = res;
+        console.log(userandassets);
+
+        console.log(userandassets);
+        for (n in userandassets) {
+          f = "/users/" + userandassets['firstname'];
+        }
+        window.location.href = f;
+      }); //End of ajax call
+    } else {
+      alert("Invalid username and password");
+    }
+
+
   }); //End of button click
 
-  $(".update-form").on("submit", function(event) {
+  $(".update-form").on("submit", function (event) {
     // Make sure to preventDefault on a submit event.
     event.preventDefault();
 
@@ -50,14 +55,29 @@ $(document).ready(function() {
     $.ajax("/api/homeassets/" + id, {
       type: "PUT",
       data: updatedQuote
-    }).then(function() {
+    }).then(function () {
       console.log("updated quote");
       // Reload the page to get the updated list
       // location.assign("/");
     });
   });
 }); //End of document ready
+const loginValues = function (emailv, passwordv) {
 
+  if (typeof (emailv) !== 'string' || typeof (passwordv) !== 'string') {
+    // let email = email.toString();
+    // let password = password.toString();
+    return false
+  }
+
+  if (typeof (emailv) !== 'undefined' || typeof (passwordv) !== 'undefined') {
+    // let email = email.toString();
+    // let password = password.toString();
+    return true
+  }
+  return true
+  
+}
 // With the element initially shown, we can hide it slowly:
 // $( "#clickme" ).click(function() {
 //   $( "#book" ).hide( "slow", function() {

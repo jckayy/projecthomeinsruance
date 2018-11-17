@@ -13,7 +13,7 @@ $(document).ready(() => {
 
   firebase.initializeApp(firebaseConfig);
 
-  $("#submitLogin").click(function() {
+  $("#submitLogin").click(function () {
     // Grab data from user form
     event.preventDefault();
     var email = $("#email").val();
@@ -29,7 +29,7 @@ $(document).ready(() => {
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
-      .then(function() {
+      .then(function () {
         console.log("You are login in");
 
         var user = firebase.auth().currentUser;
@@ -37,7 +37,7 @@ $(document).ready(() => {
           email: user.email,
           uid: user.uid
         };
-       
+
         localStorage.setItem("userprofile", currentuser.email);
         alert(localStorage.getItem("userprofile"));
 
@@ -54,13 +54,13 @@ $(document).ready(() => {
 
           data: values
           //Init values are coming from the login
-        }).then(function(res) {
+        }).then(function (res) {
           //   userandassets = res;
 
           window.location.href = "/home/" + localStorage.getItem("userprofile");
         }); //End of ajax call
       })
-      .catch(function(error) {
+      .catch(function (error) {
         var errorC = error.code;
         var errorM = error.message;
         console.log(errorC, errorM);
@@ -68,26 +68,26 @@ $(document).ready(() => {
       });
   });
 
-  $("#submitSignout").click(function() {
+  $("#submitSignout").click(function () {
     localStorage.removeItem("userprofile");
     $("username").val("");
 
     firebase
       .auth()
       .signOut()
-      .then(function() {
+      .then(function () {
         // alert("You have been logged out");
 
         window.location.href = "/";
       })
-      .catch(function(error) {
+      .catch(function (error) {
         var errorC = error.code;
         var errorM = error.message;
         console.log(errorC, errorM);
       });
   });
 
-  $("#submitSignup").click(function() {
+  $("#submitSignup").click(function () {
     // Make sure to preventDefault on a submit event.
     event.preventDefault();
     var newUser = {
@@ -115,7 +115,7 @@ $(document).ready(() => {
     $.ajax("/api/newuser", {
       type: "POST",
       data: newUser
-    }).then(function(res) {
+    }).then(function (res) {
       f =
         "/users/" +
         $("#email")
@@ -127,7 +127,7 @@ $(document).ready(() => {
       firebase
         .auth()
         .createUserWithEmailAndPassword(newUser.id_email, newUser.userpassword)
-        .then(function() {
+        .then(function () {
           alert("new user created");
         });
 
@@ -137,4 +137,21 @@ $(document).ready(() => {
       //location.reload();
     });
   });
+
 });
+  const loginValues = function (emailv, passwordv) {
+
+    if (typeof (emailv) !== 'string') {
+      // let email = email.toString();
+      // let password = password.toString();
+      return false
+    }
+
+    if (typeof (emailv) !== 'undefined' || typeof (passwordv) !== 'undefined') {
+      // let email = email.toString();
+      // let password = password.toString();
+      return false
+    }
+    return true
+
+  }
