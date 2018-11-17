@@ -8,6 +8,9 @@ var user = require("../models/users.js");
 router.get("/register", function(req, res) {
   res.render("register");
 });
+router.get("/test", function(req, res) {
+  res.render("test");
+});
 
 router.post("/api/newuser", function(req, res) {
   //  console.log(Object.values(req.body));

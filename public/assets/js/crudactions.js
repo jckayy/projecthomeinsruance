@@ -1,4 +1,5 @@
 // Make sure we wait to attach our handlers until the DOM is fully loaded.
+
 $(document).ready(function () {
   $(".viewitems").on("click", function (event) {
     var id = $(this).data("id");
@@ -43,17 +44,9 @@ $(document).ready(function () {
 
     event.preventDefault();
 
-    var totalunitvalue =
-      parseFloat(
-        $("#qu")
-          .val()
-          .trim()
-      ) *
-      parseFloat(
-        $("#unit")
-          .val()
-          .trim()
-      );
+    var quant = parseFloat($("#qu").val().trim())
+    var price = parseFloat($("#unit").val().trim());
+    var totalunitvalue = getValue(quant, price);
     var newItem = {
       itemname: $("#item")
         .val()
@@ -154,4 +147,13 @@ $(document).ready(function () {
     });
     window.location.href = "/home/" + localStorage.getItem("userprofile");
   });
+
+
 });
+
+const getValue = function (quan, price) {
+  if (isNaN(quan) || isNaN(price)) {
+    return -1;
+  }
+  return quan * price;
+}
